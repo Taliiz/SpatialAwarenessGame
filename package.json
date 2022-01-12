@@ -5,12 +5,12 @@
   "main": "sketch.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel"
+    "start": "mkdir -p dist; cp ./src/BeVietnamPro-Regular.ttf ./dist; parcel --public-url / ./src/index.html"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "lite-server": "^2.6.1",
-    "parcel": "^2.1.1"
+    "parcel": "^2.2.0"
   }
 }

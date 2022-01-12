@@ -19,7 +19,8 @@ function preload() {
 
 function setup() {
   createCanvas(900, 900, WEBGL);
-  ortho(-width / 2, width / 2, height / 2, -height / 2, -1000, 1000);
+    ortho(-width / 2, width / 2, height / 2, -height / 2, -1000, 1000);
+    textFont(myFont)
   cubeSetup();
   facesSetup();
   interfaceSetup();

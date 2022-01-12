@@ -1,0 +1,16 @@
+{
+  "name": "shapegame",
+  "version": "1.0.0",
+  "description": "Spatial awareness game prototype",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "parcel": "^2.1.1"
+  }
+}

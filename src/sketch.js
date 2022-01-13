@@ -5,11 +5,20 @@ const blue = { name: "blue", color: [128, 234, 255] };
 const cubeColors = [red, green, blue];
 //creating an empty variable to be made into a 3D matrix later on
 let cubeGrid;
-//defining a font for the text to be displayed in
-//creating an empty array to push the different faces of the shape into
 let faces;
-//creating an empty string to store which face is the right one
 let rightAnswer = "";
+let currentAnswer
+let blinkCountDown
+let score = 0
+let inARow = 0
+let mistakes = 0
+
+let errorColors = {
+    "topright":200,
+    "topleft": 200,
+    "bottomleft": 200,
+    "bottomright": 200
+}
 
 let myFont
 
@@ -19,12 +28,12 @@ function preload() {
 
 function setup() {
   createCanvas(900, 900, WEBGL);
-  ortho(-width / 2, width / 2, -height / 2,height / 2, -1000, 1000);
+    ortho(-width / 2, width / 2, -height / 2, height / 2, -1000, 1000);
+    frameRate(30)
   textFont(myFont)
   cubeSetup();
   facesSetup();
   interfaceSetup();
-  noLoop();
 }
 
 function cubeSetup() {
@@ -37,10 +46,17 @@ function cubeSetup() {
 function facesSetup() {
     determineFaces();
     makeAnswers()
+    shuffleFaces()
 }
 
 function interfaceSetup() {
   findAnswerPos();
+}
+
+function resetShape() {
+    cubeSetup()
+    facesSetup()
+    interfaceSetup()
 }
 
 function mousePressed() {
@@ -49,15 +65,35 @@ function mousePressed() {
   if (checkAnswer(75, 225, 625, 775, "bottomleft")) return;
   if (checkAnswer(675, 825, 625, 775, "bottomright")) return;
     function checkAnswer(a, b, c, d, answerArea) {
-      if (mouseX >= a && mouseX <= b && mouseY >= c && mouseY <= d) {
-        if (answerArea === rightAnswer) {
-          console.log("correct");
-        } else {
-          console.log("incorrect");
-        }
+        if (mouseX >= a && mouseX <= b && mouseY >= c && mouseY <= d) {
+            if (answerArea === rightAnswer) {
+                score++
+                inARow++
+                resetShape()
+            } else {
+                errorColors = {
+                      "topright":200,
+                      "topleft": 200,
+                      "bottomleft": 200,
+                      "bottomright": 200
+                  }
+                currentAnswer = answerArea
+                errorColors[answerArea] = [255, 88, 88]
+                blinkCountDown = frameCount + 15
+                mistakes++
+            }
       }
     }
+    
 }
+
+function handleBlink() {
+    if (blinkCountDown < frameCount) {
+        errorColors[currentAnswer]= 200
+    }
+
+} 
+
 /*this function makes a 3D matrix full of objects
 the values of which will be used to determine whether
 to render a cube, what color to fill it with and fills in positional data*/
@@ -468,6 +504,21 @@ function buildShape() {
   }
 }
 
+function buildErrors() {
+    function buildError(x, y, z, color) {
+        push()
+        fill(color)
+        translate(x, y, z)
+        noStroke()
+        box(175)
+        pop()
+    }
+    buildError(-300, -250, -100, errorColors.topleft)
+    buildError(300, -250, -100, errorColors.topright)
+    buildError(-300, 250, -100, errorColors.bottomleft)
+    buildError(300, 250, -100, errorColors.bottomright)
+}
+
 function findAnswerPos() {
     for (let i = 0; i < 4; i++) {
     if (faces[i].isAnswer) {
@@ -487,21 +538,29 @@ function findAnswerPos() {
 function draw() {
   background(200);
   normalMaterial();
+  push();
   directionalLight(200, 200, 200, -0.25, -0.5, -1);
   ambientLight(100);
-    push();
         rotateX(radians(-40))
   rotateY(radians(-43.5))
     rotateZ(radians(180))
   buildShape();
   pop();
-  buildSquares();
-      push();
+    buildSquares();
+    buildErrors()
+    push();
   textSize(45);
     text("Which view is correct?", -245, -372);
     text("A", -316, -125)
     text("B", 284, -125)
     text("C", -317, 375)
     text("D", 284, 375)
-  pop();
+    text(`Score: ${score}`, -85, 310)
+    text(`In a row: ${inARow}`, -100, 353)
+    text(`Mistakes: ${mistakes}`, -110, 400)
+    pop();
+    push()
+    textSize(90)
+    text(Math.floor(millis()/1000), 280, -357)
+    handleBlink()
 }

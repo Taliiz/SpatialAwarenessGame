@@ -80,6 +80,7 @@ function mousePressed() {
                 currentAnswer = answerArea
                 errorColors[answerArea] = [255, 88, 88]
                 blinkCountDown = frameCount + 15
+                inARow = 0
                 mistakes++
             }
       }

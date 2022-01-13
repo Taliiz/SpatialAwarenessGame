@@ -11,16 +11,16 @@ let faces;
 //creating an empty string to store which face is the right one
 let rightAnswer = "";
 
-let myFont;
+let myFont
 
 function preload() {
-  myFont = loadFont("BeVietnamPro-Regular.ttf");
+  myFont = loadFont("BeVietnamPro-Regular.ttf")
 }
 
 function setup() {
   createCanvas(900, 900, WEBGL);
-    ortho(-width / 2, width / 2, height / 2, -height / 2, -1000, 1000);
-    textFont(myFont)
+  ortho(-width / 2, width / 2, -height / 2,height / 2, -1000, 1000);
+  textFont(myFont)
   cubeSetup();
   facesSetup();
   interfaceSetup();
@@ -35,9 +35,8 @@ function cubeSetup() {
 }
 
 function facesSetup() {
-  determineFaces();
-  makeAnswers();
-  shuffleFaces();
+    determineFaces();
+    makeAnswers()
 }
 
 function interfaceSetup() {
@@ -45,19 +44,19 @@ function interfaceSetup() {
 }
 
 function mousePressed() {
-  if (checkAnswer(75, 225, 75, 225, "topleft")) return;
-  if (checkAnswer(675, 825, 75, 225, "topright")) return;
-  if (checkAnswer(75, 225, 675, 825, "bottomleft")) return;
-  if (checkAnswer(675, 825, 675, 825, "bottomright")) return;
-}
-function checkAnswer(a, b, c, d, answerArea) {
-  if (mouseX >= a && mouseX <= b && mouseY >= c && mouseY <= d) {
-    if (answerArea === rightAnswer) {
-      console.log("correct");
-    } else {
-      console.log("incorrect");
+  if (checkAnswer(75, 225, 125, 275, "topleft")) return;
+  if (checkAnswer(675, 825, 125, 275, "topright")) return;
+  if (checkAnswer(75, 225, 625, 775, "bottomleft")) return;
+  if (checkAnswer(675, 825, 625, 775, "bottomright")) return;
+    function checkAnswer(a, b, c, d, answerArea) {
+      if (mouseX >= a && mouseX <= b && mouseY >= c && mouseY <= d) {
+        if (answerArea === rightAnswer) {
+          console.log("correct");
+        } else {
+          console.log("incorrect");
+        }
+      }
     }
-  }
 }
 /*this function makes a 3D matrix full of objects
 the values of which will be used to determine whether
@@ -443,10 +442,10 @@ function buildSquares() {
       }
     }
   }
-  buildSquare(faces[0].face, -300, 300);
-  buildSquare(faces[1].face, 300, 300);
-  buildSquare(faces[2].face, -300, -300);
-  buildSquare(faces[3].face, 300, -300);
+  buildSquare(faces[0].face, -300, -250);
+  buildSquare(faces[1].face, 300, -250);
+  buildSquare(faces[2].face, -300, 250);
+  buildSquare(faces[3].face, 300, 250);
 }
 
 /*this function draws the cubes making up
@@ -470,7 +469,7 @@ function buildShape() {
 }
 
 function findAnswerPos() {
-  for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
     if (faces[i].isAnswer) {
       if (i === 0) {
         rightAnswer = "topleft";
@@ -488,16 +487,21 @@ function findAnswerPos() {
 function draw() {
   background(200);
   normalMaterial();
-  directionalLight(200, 200, 200, -0.25, 0.5, -1);
+  directionalLight(200, 200, 200, -0.25, -0.5, -1);
   ambientLight(100);
-  push();
-  rotateX(radians(220));
-  rotateY(radians(43.5));
+    push();
+        rotateX(radians(-40))
+  rotateY(radians(-43.5))
+    rotateZ(radians(180))
   buildShape();
   pop();
   buildSquares();
-  push();
-  textSize(20);
-  text("Hello this is test text", 100, 200);
+      push();
+  textSize(45);
+    text("Which view is correct?", -245, -372);
+    text("A", -316, -125)
+    text("B", 284, -125)
+    text("C", -317, 375)
+    text("D", 284, 375)
   pop();
 }

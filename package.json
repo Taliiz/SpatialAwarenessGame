@@ -2,10 +2,10 @@
   "name": "shapegame",
   "version": "1.0.0",
   "description": "Spatial awareness game prototype",
-  "main": "sketch.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "mkdir -p dist; cp ./src/BeVietnamPro-Regular.ttf ./dist; parcel --public-url / ./src/index.html"
+    "start": "mkdir -p dist; cp ./src/BeVietnamPro-Regular.ttf ./dist; parcel --public-url / ./src/index.html",
+    "build": "mkdir -p dist; cp ./src/BeVietnamPro-Regular.ttf ./dist; parcel build --public-url / ./src/index.html"
   },
   "author": "",
   "license": "ISC",
